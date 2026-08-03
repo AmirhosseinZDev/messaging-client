@@ -66,7 +66,8 @@ public class MessagingClientSample implements CommandLineRunner {
 //        sendOneToOneSms();
 //        sendOneToManySms();
 //        sendManyToManySms();
-        sendChaparMessage();
+//        sendChaparMessage();
+//        getAccountInfo();
     }
 
     private void sendChaparMessage() {
@@ -160,6 +161,15 @@ public class MessagingClientSample implements CommandLineRunner {
         try {
             SendOtpResponse sendOtpResponse = messagingService.sendOtpMessage(sendVoiceOtpRequest);
             log.info(sendOtpResponse.toString());
+        } catch (Exception e) {
+            log.error("error: ", e);
+        }
+    }
+
+    private void getAccountInfo() {
+        try {
+            AccountInfoResponse accountInfo = messagingService.getAccountInfo();
+            log.info("Remain credit :{}", accountInfo.getRemainCreditRial());
         } catch (Exception e) {
             log.error("error: ", e);
         }
