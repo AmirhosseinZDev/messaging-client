@@ -43,7 +43,6 @@ public class ChaparTokenManager {
         this.externalServiceInvoker = externalServiceInvoker;
         this.chaparClientProperties = chaparClientProperties;
         this.tokenCache = tokenCache;
-        validateConfig();
     }
 
     public String getAccessToken() {
@@ -66,7 +65,7 @@ public class ChaparTokenManager {
     }
 
     private String fetchAndCacheToken() {
-
+        validateConfig();
         String url = externalServiceInvoker.generateUrl(ChaparUrl.LOGIN.getUrl());
         try {
             ResponseEntity<GetTokenResponseDto> response = externalServiceInvoker.getClient()
@@ -117,22 +116,22 @@ public class ChaparTokenManager {
 
     private void validateConfig() {
         if (chaparClientProperties == null) {
-            throw new ChaparMessagingValidationException("messaging-client.chapar configuration is required");
+            throw new ChaparMessagingValidationException("chapar.messaging-client configuration is required");
         }
         if (!StringUtils.hasText(chaparClientProperties.getClientId())) {
-            throw new ChaparMessagingValidationException("messaging-client.chapar.client-id is required");
+            throw new ChaparMessagingValidationException("chapar.messaging-client.client-id is required");
         }
         if (!StringUtils.hasText(chaparClientProperties.getClientSecret())) {
-            throw new ChaparMessagingValidationException("messaging-client.chapar.client-secret is required");
+            throw new ChaparMessagingValidationException("chapar.messaging-client.client-secret is required");
         }
         if (chaparClientProperties.getGrantType() == null) {
-            throw new ChaparMessagingValidationException("messaging-client.chapar.grant-type is required");
+            throw new ChaparMessagingValidationException("chapar.messaging-client.grant-type is required");
         }
         if (chaparClientProperties.getGrantType().equals(ChaparGrantType.PASSWORD)) {
             if (!StringUtils.hasText(chaparClientProperties.getPassword()) || !StringUtils.hasText(
                     chaparClientProperties.getUsername())) {
                 throw new ChaparMessagingValidationException(
-                        "messaging-client.chapar.username and messaging-client.chapar.password are required");
+                        "chapar.messaging-client.username and chapar.messaging-client.password are required");
             }
         }
     }
